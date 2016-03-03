@@ -1,0 +1,779 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=0.5.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="OC," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=0.5.0" />
+
+
+
+
+
+
+<meta name="description" content="虽然 GCD 已经出现过一段时间了，但不是每个人都明了其主要内容。这是可以理解的；并发一直很棘手，而 GCD 是基于 C 的 API ，它们就像一组尖锐的棱角戳进 Objective-C 的平滑世界。我们将分两个部分的教程来深入学习 GCD 。
+在这两部分的系列中，第一个部分的将解释 GCD 是做什么的，并从许多基本的 GCD 函数中找出几个来展示。在第二部分，你将学到几个 GCD 提供的高级函数">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【译】深入理解GCD:Part1">
+<meta property="og:url" content="http://yoursite.com/2014/12/08/GCDP1/index.html">
+<meta property="og:site_name" content="MarkLin's Blog">
+<meta property="og:description" content="虽然 GCD 已经出现过一段时间了，但不是每个人都明了其主要内容。这是可以理解的；并发一直很棘手，而 GCD 是基于 C 的 API ，它们就像一组尖锐的棱角戳进 Objective-C 的平滑世界。我们将分两个部分的教程来深入学习 GCD 。
+在这两部分的系列中，第一个部分的将解释 GCD 是做什么的，并从许多基本的 GCD 函数中找出几个来展示。在第二部分，你将学到几个 GCD 提供的高级函数">
+<meta property="og:image" content="https://camo.githubusercontent.com/55145c5a8cf3d6f840e7267acd550869f92becfe/687474703a2f2f63646e312e72617977656e6465726c6963682e636f6d2f77702d636f6e74656e742f75706c6f6164732f323031342f30312f436f6e63757272656e63795f76735f506172616c6c656c69736d2e706e67">
+<meta property="og:image" content="https://camo.githubusercontent.com/e337c0cb657dde8d7eeb5468a1724c751cedb484/687474703a2f2f63646e342e72617977656e6465726c6963682e636f6d2f77702d636f6e74656e742f75706c6f6164732f323031342f30312f53657269616c2d51756575652d343830783237322e706e67">
+<meta property="og:image" content="https://camo.githubusercontent.com/607942d30c4701a1a721781264fa815f100668a5/687474703a2f2f63646e332e72617977656e6465726c6963682e636f6d2f77702d636f6e74656e742f75706c6f6164732f323031342f30312f436f6e63757272656e742d51756575652d343830783237322e706e67">
+<meta property="og:image" content="https://camo.githubusercontent.com/d5493d544baf1f04eca67579f0e6e2c2ce75d599/687474703a2f2f63646e332e72617977656e6465726c6963682e636f6d2f77702d636f6e74656e742f75706c6f6164732f323031342f30312f576f726b666c6f77312e706e67">
+<meta property="og:updated_time" content="2016-03-03T03:34:59.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【译】深入理解GCD:Part1">
+<meta name="twitter:description" content="虽然 GCD 已经出现过一段时间了，但不是每个人都明了其主要内容。这是可以理解的；并发一直很棘手，而 GCD 是基于 C 的 API ，它们就像一组尖锐的棱角戳进 Objective-C 的平滑世界。我们将分两个部分的教程来深入学习 GCD 。
+在这两部分的系列中，第一个部分的将解释 GCD 是做什么的，并从许多基本的 GCD 函数中找出几个来展示。在第二部分，你将学到几个 GCD 提供的高级函数">
+<meta name="twitter:image" content="https://camo.githubusercontent.com/55145c5a8cf3d6f840e7267acd550869f92becfe/687474703a2f2f63646e312e72617977656e6465726c6963682e636f6d2f77702d636f6e74656e742f75706c6f6164732f323031342f30312f436f6e63757272656e63795f76735f506172616c6c656c69736d2e706e67">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> 【译】深入理解GCD:Part1 | MarkLin's Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">MarkLin's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu ">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+
+
+      
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                【译】深入理解GCD:Part1
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2014-12-08T11:32:20+08:00" content="2014-12-08">
+              2014-12-08
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2014/12/08/GCDP1/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2014/12/08/GCDP1/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>虽然 GCD 已经出现过一段时间了，但不是每个人都明了其主要内容。这是可以理解的；并发一直很棘手，而 GCD 是基于 C 的 API ，它们就像一组尖锐的棱角戳进 Objective-C 的平滑世界。我们将分两个部分的教程来深入学习 GCD 。</p>
+<p>在这两部分的系列中，第一个部分的将解释 GCD 是做什么的，并从许多基本的 GCD 函数中找出几个来展示。在<a href="https://github.com/nixzhu/dev-blog/blob/master/2014-05-14-grand-central-dispatch-in-depth-part-2.md" target="_blank" rel="external">第二部分</a>，你将学到几个 GCD 提供的高级函数。</p>
+<hr>
+<p>本文翻译自 <a href="http://www.raywenderlich.com/60749/grand-central-dispatch-in-depth-part-1" target="_blank" rel="external">http://www.raywenderlich.com/60749/grand-central-dispatch-in-depth-part-1</a></p>
+<hr>
+<h3 id="什么是GCD"><a href="#什么是GCD" class="headerlink" title="什么是GCD"></a>什么是GCD</h3><hr>
+<p>GCD是<code>libdispatch</code> 的市场名称，而libdispatch作为Apple的一个库，为并发代码在多核硬件（跑iOS或OSX）上执行提供有力支持。它具有以下优点：</p>
+<ul>
+<li>GCD能通过推迟昂贵计算任务并在后台运行他们来改善你的应用的响应性能</li>
+<li>GCD提供一个易于使用的并发模型而不仅仅是锁和线程，以帮助我们避开并发陷进。</li>
+<li>GCD具有常见模式（例如单例）上用更高性能的原语优化你的代码的潜在能力。</li>
+</ul>
+<p>本教程假设你对Block合GCD有基础了解。如果你对GCD完全陌生，先看看<a href="http://www.raywenderlich.com/4295/multithreading-and-grand-central-dispatch-on-ios-for-beginners-tutorial" target="_blank" rel="external">iOS上德多线程和GCD入门教程</a> 学习其要领。</p>
+<h3 id="GCD术语"><a href="#GCD术语" class="headerlink" title="GCD术语"></a>GCD术语</h3><hr>
+<p>要理解GCD，你要熟悉与线程和并发相关的几个概念。这两者都可能模糊和微妙，所以在开始GCD之前先简要地回顾以下它们。</p>
+<h4 id="Serial-vs-Concurrent-串行-vs-并行"><a href="#Serial-vs-Concurrent-串行-vs-并行" class="headerlink" title="Serial vs. Concurrent 串行 vs. 并行"></a>Serial vs. Concurrent 串行 vs. 并行</h4><p>这些术语描述当任务相对于其它任务被执行，任务串行执行就是每次只有一个任务被执行，任务并发执行就是在同一时间可以有多个任务被执行。</p>
+<p>虽然这些术语被广泛使用，本教程中你可以将任务设定为一个Objective-C的Block。不明白什么是Block?看看<a href="http://www.raywenderlich.com/9328/creating-a-diner-app-using-blocks-part-1" target="_blank" rel="external">iOS5教程中的如何使用Block</a>。实际上，你也可以在GCD上使用函数指针，但在大多数场景中，这实际上更难于使用。Block就是更加容易些！</p>
+<h4 id="Synchonous-vs-Asynchronous-同步-vs-异步"><a href="#Synchonous-vs-Asynchronous-同步-vs-异步" class="headerlink" title="Synchonous vs. Asynchronous 同步 vs. 异步"></a>Synchonous vs. Asynchronous 同步 vs. 异步</h4><p>在GCD中，这些术语描述当一个函数相对于另外一个任务完成，此任务是该函数要求GCD执行的。一个同步函数只在完成了它预定的任务后才返回。</p>
+<p>一个异步函数，刚好相反，会立即返回，预定的任务会完成但不会等它完成。因此，一个异步函数不会阻塞当前线程去执行下一个函数。</p>
+<p>注意–当你读到同步函数“阻塞(Block)”当前线程，或函数是一个“阻塞”函数或阻塞操作时，不要被搞糊涂了！动词“阻塞”描述了函数如何影响它所在的线程而与名词“代码块(Block)”没有关系。代码块描述了用Objective-C编写的一个匿名函数，它能定义一个任务并被提交到GCD。</p>
+<p>译者注：中文不会有这个问题，“阻塞”和“代码块”是两个词。</p>
+<h4 id="Critical-Section-临界区"><a href="#Critical-Section-临界区" class="headerlink" title="Critical Section 临界区"></a>Critical Section 临界区</h4><p>就是一段代码不能被并发执行，也就是，两个线程不能同时执行这段代码。这很常见，因为代码去操作一个共享资源，例如一个变量若能被并发进程访问，那么它很肯能会变质（译者注：它的值不再可信）。</p>
+<h4 id="Race-Condition-竞态条件"><a href="#Race-Condition-竞态条件" class="headerlink" title="Race Condition 竞态条件"></a>Race Condition 竞态条件</h4><p>这种状况是指基于特定序列或时机的事件的软件系统以不受控制的方式运行的行为，例如程序的并发任务执行的确切顺序。竞态条件可导致无法预测的行为，而不能通过代码检查立即发现。</p>
+<h4 id="Deadlock-死锁"><a href="#Deadlock-死锁" class="headerlink" title="Deadlock 死锁"></a>Deadlock 死锁</h4><p>两个（有时更多）东西–在大多数情况下,是线程–所谓的死锁是指他们都卡住了，并等待对方完成或执行其他操作。第一个不能完成是因为它在等待第二个的完成。但第二个也不能完成，因为它在等待第一个的完成。</p>
+<h4 id="Thread-Safe-线程安全"><a href="#Thread-Safe-线程安全" class="headerlink" title="Thread Safe 线程安全"></a>Thread Safe 线程安全</h4><p>线程安全的代码能在多线程或并发任务中被安全调用，而不会导致任何问题（数据算坏，奔溃，等）。线程不安全的代码在摸个时刻只能在一个上下文中运行。一个线程安全代码的例子是<code>NSDictionary</code>。你可以在同一时间在多个线程中使用它而不会有问题。另一方面，<code>NSMutableDictionary</code>就不是线程安全的，应该保证一次只能有一个线程访问它。</p>
+<h4 id="Context-Switch-上下文切换"><a href="#Context-Switch-上下文切换" class="headerlink" title="Context Switch 上下文切换"></a>Context Switch 上下文切换</h4><p>一个上下文切换指当你在当个进程里切换执行不同的线程时存储与恢复执行状态的过程。这个过程在编写多任务应用时很普遍，但会带来一些额外的开销。</p>
+<h4 id="Concurrency-vs-Parallelism-并发与并行"><a href="#Concurrency-vs-Parallelism-并发与并行" class="headerlink" title="Concurrency vs. Parallelism 并发与并行"></a>Concurrency vs. Parallelism 并发与并行</h4><p>并发和并行通常被一起提到，所以值得花些时间解释他们之间的区别。</p>
+<p>并发代码的不同部分可以“同步”执行。然而，改怎样发生或是否发生都决定于多系统。多核设备通过并行来同事执行多个线程；然而，为了使单核设备也能实现这一点，他们必须先运行一个线程，执行一个上下文切换，然后运行另一个线程或进程。这通常发生得足够快以致给我们并发执行的错觉，如下图所示：<br><img src="https://camo.githubusercontent.com/55145c5a8cf3d6f840e7267acd550869f92becfe/687474703a2f2f63646e312e72617977656e6465726c6963682e636f6d2f77702d636f6e74656e742f75706c6f6164732f323031342f30312f436f6e63757272656e63795f76735f506172616c6c656c69736d2e706e67" alt="p1"></p>
+<p>虽然你可以编写代码在GCD下并发执行，但GCD会决定有多少并行的需求。并行要求并发，但并发并不能保证并行。</p>
+<p>更深入的观点是并发实际上是关于构造。当你在脑海中用GCD编写代码，你组织你的代码来暴露同时运行的多个工作片段，以及不能同时运行的那些。如果你想深入此主题，看看<a href="http://vimeo.com/49718712" target="_blank" rel="external">这个由Rob Pike做的精彩的讲座</a></p>
+<h4 id="Queues-队列"><a href="#Queues-队列" class="headerlink" title="Queues 队列"></a>Queues 队列</h4><p>GCD提供有<code>dispatch queues</code>来处理代码块，这些队列管理提供给GCD的任务并用FIFO顺序执行这些任务。这就保证了第一个被添加到队列里地任务回事队列中第一个开始的任务，而第二个被添加的任务将第二个开始，如此知道队列的终点。</p>
+<p>所有的调度队列（dispatch queues）自身都是线程安全的，你能从多个线程并行地访问他们。当你了解了调度队列如何为自己代码的不同部分提供线程安全后，GCD的优点就是显而易见的。关于这一点的关键是选择正确类型的调度队列和正确地调度函数来提交你的工作。</p>
+<p>在本节你会看到两种调度队列，都是由GCD提供的，然后看一些描述如何用调度函数添加工作到队列的例子。</p>
+<h4 id="Serial-Queues-串行队列"><a href="#Serial-Queues-串行队列" class="headerlink" title="Serial Queues 串行队列"></a>Serial Queues 串行队列</h4><p>串行队列中得任务一次执行一个，每个任务只在前一个任务完成时才开始。而且，你不知道在一个Block结束和下一个开始之间的时间长度，如下图所示：<br><img src="https://camo.githubusercontent.com/e337c0cb657dde8d7eeb5468a1724c751cedb484/687474703a2f2f63646e342e72617977656e6465726c6963682e636f6d2f77702d636f6e74656e742f75706c6f6164732f323031342f30312f53657269616c2d51756575652d343830783237322e706e67" alt="p2"></p>
+<p>这些任务执行的时机受到GCD的控制；唯一能确保的事情是GCD一次只能执行一个任务，并且按照我们添加到队列的顺序来执行。</p>
+<p>由于在串行队列中不会有两个任务并发运行，因此不会出新同时访问临界区的风险；相对于这些任务来说，这就从竞态条件下保护了临界区。所以如果访问临界区的唯一方式是通过提交到调度队列的任务，那么你就不需要担心临界区安全问题了。</p>
+<h4 id="Concurrent-Queues-并发队列"><a href="#Concurrent-Queues-并发队列" class="headerlink" title="Concurrent Queues 并发队列"></a>Concurrent Queues 并发队列</h4><p>在并发队列中得任务能得到的保证是它们会按照被添加的顺序开始执行，但这既是全部的保证了。任务可能以任意顺序完成，你不会知道何时开始运行下一个任务，或者任意时刻有多少Block在运行。再说一遍，这完全取决于GCD。</p>
+<p>下图展示了一个示例任务执行计划，GCD管理者四个并发任务：<br><img src="https://camo.githubusercontent.com/607942d30c4701a1a721781264fa815f100668a5/687474703a2f2f63646e332e72617977656e6465726c6963682e636f6d2f77702d636f6e74656e742f75706c6f6164732f323031342f30312f436f6e63757272656e742d51756575652d343830783237322e706e67" alt="p3"></p>
+<p>注意Block1，2和3都立马开始运行，一个接一个。在Block0开始后，Block1等待了好一会儿才开始。同样，Block3在Block2之后才开始，但它先于Block2完成。</p>
+<p>何时开始一个Block完全取决于GCD。如果一个Block的执行时间与另一个重叠，也是由GCD来决定是否将其运行在另一个不同的核心上，如果那个核心可用，否则就用上下文切换的方式来执行不同的Block。</p>
+<p>有趣的是，GCD提供给你至少五个特定的队列，可根据队列类型选择使用。</p>
+<h4 id="Queue-Types-队列类型"><a href="#Queue-Types-队列类型" class="headerlink" title="Queue Types 队列类型"></a>Queue Types 队列类型</h4><p>首先，系统提供给你一个叫做<code>主队列（main queue）</code>的特殊队列。和其他串行队列一样，这个队列中得任务一次只能执行一个。然而，它能保证所有的任务都在主线程执行，而主线程是唯一可用于更新UI的线程。这个队列就是用于发生消息给<code>UIView</code>或发送通知的。系统同时提供给你好几个并发队列。它们叫做<code>全局调度队列(Global Dispatch Queues)</code>。目前的四个全局队列有着不同的优先级：<code>background</code>、<code>low</code>、<code>default</code>以及<code>high</code>。要知道，Apple的API也会使用这些队列，所以你添加的任何任务都不会是这些队列中唯一的任务。</p>
+<p>最后，你也可以创建自己的串行队列或并发队列。这就是说，至少有五个队列任你处置：主队列、四个全局调度队列，再加上任何你自己创建的队列。</p>
+<p>以上是调度队列的大框架！</p>
+<p>GCD的“艺术”归结为选择合适的队列来调度函数以提交你的工作。体验这一点的最好方式是走一遍下边的例子，我们沿途会提供一些一般性的建议。</p>
+<h3 id="入门"><a href="#入门" class="headerlink" title="入门"></a>入门</h3><hr>
+<p>既然本教程的目标是优化且安全的使用GCD调用来自不同线程的代码，那么你将从一个近乎完成的叫做<code>googlyPuff</code>的项目入手。</p>
+<p>GooglyPuff是一个没有优化，线程不安全的应用，它使用Core Image 的人脸检测API来覆盖一对曲棍球眼睛到被检测到得人脸上。对于基本的图像，可以从相机胶卷选择，或用预设好的URL从互联网下载。</p>
+<p><a href="http://cdn4.raywenderlich.com/wp-content/uploads/2014/01/GooglyPuff_Start_1.zip" target="_blank" rel="external">点击此处下载项目</a></p>
+<p>完成项目下载之后，将其解压到某个方便的目录，再用Xcode打开它并编译运行。这个应用看起来如下图所示：<br><img src="https://camo.githubusercontent.com/d5493d544baf1f04eca67579f0e6e2c2ce75d599/687474703a2f2f63646e332e72617977656e6465726c6963682e636f6d2f77702d636f6e74656e742f75706c6f6164732f323031342f30312f576f726b666c6f77312e706e67" alt="p4"></p>
+<p>注意当你选择<code>Le Internet</code>选项下载图片时，一个<code>UIAlertView</code>过早地弹出。你将在本系列教程的第二部分修复这个问题。</p>
+<p>这个项目中有四个有趣的类：</p>
+<ul>
+<li>PhotoCollectionViewController:他是应用开始的第一个视图控制器。它用缩略图展示所有选定的照片。</li>
+<li>PhotoDetailViewController:它执行添加曲棍球眼睛到图像上德逻辑，并用一个UIScrollView来显示结果图片。</li>
+<li>Photo:这是一个类，它根据一个<code>NSURL</code>的实例或一个<code>ALAsset</code>的实例来实例化照片。这个类提供一个图像、缩略图以及从URL下载的状态。</li>
+<li>PhotoManager:它管理所有<code>Photo</code>的实例。</li>
+</ul>
+<h3 id="用dispatch-async处理后台任务"><a href="#用dispatch-async处理后台任务" class="headerlink" title="用dispatch_async处理后台任务"></a>用dispatch_async处理后台任务</h3><hr>
+<p>回到应用并从你的相机胶卷添加一些照片或使用<code>Le Internet</code>选项下载一些。</p>
+<p>注意在按下<code>PhotoCollectionViewController</code>中得一个<code>UICollectionViewCell</code>到生成一个新的<code>PhotoDetailViewController</code>之间花了多久时间；你会注意到一个明显的滞后，特变是在比较慢得设备上查看很大的图。</p>
+<p>在重载<code>UIViewController的viewDidLoad</code>时容易加入太多杂波(too much clutter)，这通常会引起视图控制器出现前更长的等待。如果可能，最好是卸下一些工作放到后台，如果他们不是绝对必须要运行在加载时间里。</p>
+<p>这听起来像是<code>dispatch_async</code>能做的事情！</p>
+<p>打开<code>PhotoDetailViewController</code>并用下面的实现替换<code>viewDidLoad</code>:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">- (void)viewDidLoad</span><br><span class="line">&#123;   </span><br><span class="line">    [super viewDidLoad];</span><br><span class="line">    NSAssert(_image, @&quot;Image not set; required to use view controller&quot;);</span><br><span class="line">    self.photoImageView.image = _image;</span><br><span class="line"></span><br><span class="line">    //Resize if neccessary to ensure it&apos;s not pixelated</span><br><span class="line">    if (_image.size.height &lt;= self.photoImageView.bounds.size.height &amp;&amp;</span><br><span class="line">        _image.size.width &lt;= self.photoImageView.bounds.size.width) &#123;</span><br><span class="line">        [self.photoImageView setContentMode:UIViewContentModeCenter];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^&#123; // 1</span><br><span class="line">        UIImage *overlayImage = [self faceOverlayImageFromImage:_image];</span><br><span class="line">        dispatch_async(dispatch_get_main_queue(), ^&#123; // 2</span><br><span class="line">            [self fadeInNewImage:overlayImage]; // 3</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="未完待续。。。"><a href="#未完待续。。。" class="headerlink" title="(未完待续。。。)"></a>(未完待续。。。)</h4>
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/OC/" rel="tag">#OC</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2014/12/08/Xcodeskill/" rel="next" title="【译】提高你的Xcode开发效率">
+                <i class="fa fa-chevron-left"></i> 【译】提高你的Xcode开发效率
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2014/12/08/OCRuntime/" rel="prev" title="【译】Objective-C Runtime">
+                【译】Objective-C Runtime <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2014/12/08/GCDP1/"
+           data-title="【译】深入理解GCD:Part1" data-url="http://yoursite.com/2014/12/08/GCDP1/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="https://avatars1.githubusercontent.com/u/6028247?v=3&s=460"
+               alt="MarkLin" />
+          <p class="site-author-name" itemprop="name">MarkLin</p>
+          <p class="site-description motion-element" itemprop="description">来自⎡凹凸实验室⎦iOSer的Blog</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">6</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+          
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/marklin2012" target="_blank">
+                  
+                    <i class="fa fa-github"></i> GitHub
+                  
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator">
+            <i class="fa fa-angle-double-up"></i>
+          </div>
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是GCD"><span class="nav-number">1.</span> <span class="nav-text">什么是GCD</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#GCD术语"><span class="nav-number">2.</span> <span class="nav-text">GCD术语</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Serial-vs-Concurrent-串行-vs-并行"><span class="nav-number">2.1.</span> <span class="nav-text">Serial vs. Concurrent 串行 vs. 并行</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Synchonous-vs-Asynchronous-同步-vs-异步"><span class="nav-number">2.2.</span> <span class="nav-text">Synchonous vs. Asynchronous 同步 vs. 异步</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Critical-Section-临界区"><span class="nav-number">2.3.</span> <span class="nav-text">Critical Section 临界区</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Race-Condition-竞态条件"><span class="nav-number">2.4.</span> <span class="nav-text">Race Condition 竞态条件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Deadlock-死锁"><span class="nav-number">2.5.</span> <span class="nav-text">Deadlock 死锁</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Thread-Safe-线程安全"><span class="nav-number">2.6.</span> <span class="nav-text">Thread Safe 线程安全</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Context-Switch-上下文切换"><span class="nav-number">2.7.</span> <span class="nav-text">Context Switch 上下文切换</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Concurrency-vs-Parallelism-并发与并行"><span class="nav-number">2.8.</span> <span class="nav-text">Concurrency vs. Parallelism 并发与并行</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Queues-队列"><span class="nav-number">2.9.</span> <span class="nav-text">Queues 队列</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Serial-Queues-串行队列"><span class="nav-number">2.10.</span> <span class="nav-text">Serial Queues 串行队列</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Concurrent-Queues-并发队列"><span class="nav-number">2.11.</span> <span class="nav-text">Concurrent Queues 并发队列</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Queue-Types-队列类型"><span class="nav-number">2.12.</span> <span class="nav-text">Queue Types 队列类型</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#入门"><span class="nav-number">3.</span> <span class="nav-text">入门</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#用dispatch-async处理后台任务"><span class="nav-number">4.</span> <span class="nav-text">用dispatch_async处理后台任务</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#未完待续。。。"><span class="nav-number">4.1.</span> <span class="nav-text">(未完待续。。。)</span></a></li></ol></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator">
+            <i class="fa fa-angle-double-down"></i>
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">MarkLin</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+
+      </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  
+
+
+  
+
+
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=0.5.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=0.5.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=0.5.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=0.5.0"></script>
+
+
+
+  
+  
+<script type="text/javascript" src="/js/src/scrollspy.js?v=0.5.0"></script>
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 1 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = NexT.utils.escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    NexT.motion.middleWares.sidebar = function () {
+      var $tocContent = $('.post-toc-content');
+
+      if (CONFIG.scheme !== 'Pisces' && (CONFIG.sidebar.display === 'post' || CONFIG.sidebar.display === 'always')) {
+        if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+          NexT.utils.displaySidebar();
+        }
+      }
+    };
+  });
+</script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=0.5.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"devmarklinblog"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+  
+  
+  
+
+  
+  
+
+
+</body>
+</html>
