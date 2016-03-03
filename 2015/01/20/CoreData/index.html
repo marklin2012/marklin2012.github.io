@@ -41,7 +41,7 @@
 <link href="/css/main.css?v=0.5.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="iOS," />
 
 
 
@@ -57,26 +57,12 @@
 
 
 
-<meta name="description" content="引言在这个教程中，你会看到在Xcode提供的初始化代码模板和数据模型编辑器资源中，用Swift语言写出你的第一个Core Data app，将会是一件多么容易上手的事情
-
-使用Xcode的模型编辑器在Core Data中创建你想存储的模型数据
-在Core Data中添加一条新记录
-从Core Data中获取一组记录
-在列表视图中显示用户的数据
-
-你还可以看到一个Core Data在在后台是如何与各">
+<meta name="description" content="引言在这个教程中，你会看到在Xcode提供的初始化代码模板和数据模型编辑器资源中，用Swift语言写出你的第一个Core Data app，将会是一件多么容易上手的事情">
 <meta property="og:type" content="article">
 <meta property="og:title" content="我的第一个Core Data APP -- Swift">
 <meta property="og:url" content="http://yoursite.com/2015/01/20/CoreData/index.html">
 <meta property="og:site_name" content="MarkLin's Blog">
-<meta property="og:description" content="引言在这个教程中，你会看到在Xcode提供的初始化代码模板和数据模型编辑器资源中，用Swift语言写出你的第一个Core Data app，将会是一件多么容易上手的事情
-
-使用Xcode的模型编辑器在Core Data中创建你想存储的模型数据
-在Core Data中添加一条新记录
-从Core Data中获取一组记录
-在列表视图中显示用户的数据
-
-你还可以看到一个Core Data在在后台是如何与各">
+<meta property="og:description" content="引言在这个教程中，你会看到在Xcode提供的初始化代码模板和数据模型编辑器资源中，用Swift语言写出你的第一个Core Data app，将会是一件多么容易上手的事情">
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/126473-8ace73e118eb0cd8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/126473-c0245facc8be2ef5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/126473-c6822d2c1d1d130c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
@@ -95,17 +81,10 @@
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/126473-2b2e83c863e4b3ab.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/126473-6b59f8bd35e3fbd5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/126473-1e245e33a5a9e4ad.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:updated_time" content="2016-03-03T03:44:54.000Z">
+<meta property="og:updated_time" content="2016-03-03T07:15:14.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="我的第一个Core Data APP -- Swift">
-<meta name="twitter:description" content="引言在这个教程中，你会看到在Xcode提供的初始化代码模板和数据模型编辑器资源中，用Swift语言写出你的第一个Core Data app，将会是一件多么容易上手的事情
-
-使用Xcode的模型编辑器在Core Data中创建你想存储的模型数据
-在Core Data中添加一条新记录
-从Core Data中获取一组记录
-在列表视图中显示用户的数据
-
-你还可以看到一个Core Data在在后台是如何与各">
+<meta name="twitter:description" content="引言在这个教程中，你会看到在Xcode提供的初始化代码模板和数据模型编辑器资源中，用Swift语言写出你的第一个Core Data app，将会是一件多么容易上手的事情">
 <meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/126473-8ace73e118eb0cd8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 
 
@@ -132,6 +111,16 @@
   
 
 
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?5637976c14f73454a153a5613e3b5a15";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
 
 
 
@@ -172,7 +161,7 @@
   
 
   
-    <ul id="menu" class="menu ">
+    <ul id="menu" class="menu menu-left">
       
         
         <li class="menu-item menu-item-home">
@@ -210,9 +199,39 @@
 
       
       
+        <li class="menu-item menu-item-search">
+        
+          <a href="#" class="st-search-show-outputs">
+        
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
     </ul>
   
 
+  
+    <div class="site-search">
+      
+  <form class="site-search-form">
+  <input type="text" id="st-search-input" class="st-search-input st-default-search-input" />
+</form>
+
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+    (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+    e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install', 'JwC9npkytc2JXzYs6CJe','2.0.0');
+</script>
+
+
+
+    </div>
   
 </nav>
 
@@ -293,6 +312,7 @@
 
       
         <h3 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h3><p>在这个教程中，你会看到在Xcode提供的初始化代码模板和数据模型编辑器资源中，用Swift语言写出你的第一个Core Data app，将会是一件多么容易上手的事情</p>
+<a id="more"></a>
 <ul>
 <li>使用Xcode的模型编辑器在Core Data中创建你想存储的模型数据</li>
 <li>在Core Data中添加一条新记录</li>
@@ -463,6 +483,12 @@
 
     <footer class="post-footer">
       
+        <div class="post-tags">
+          
+            <a href="/tags/iOS/" rel="tag">#iOS</a>
+          
+        </div>
+      
 
       
         <div class="post-nav">
@@ -476,8 +502,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2016/03/02/hello-world/" rel="prev" title="Hello World">
-                Hello World <i class="fa fa-chevron-right"></i>
+              <a href="/2015/12/28/PrivateCocoaPods/" rel="prev" title="【译】本地私有 CocoaPods">
+                【译】本地私有 CocoaPods <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -550,7 +576,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">6</span>
+              <span class="site-state-item-count">9</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -560,7 +586,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-count">6</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

@@ -41,7 +41,7 @@
 <link href="/css/main.css?v=0.5.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="iOS," />
 
 
 
@@ -57,26 +57,17 @@
 
 
 
-<meta name="description" content="本文翻译自Apple官方文档
-   重要声明    这是一个初步的API开发技术文档，苹果公司提供这些信息来帮助你计划采用的技术和使用这里描述的苹果产品的编程接口。这些信息可能随时改变，并根据这个文档来实现软件对应的最新操作系统软件和最新文档进行测试。新版本文档将会提供未来API和技术的测试版本。
-
-Apple Watch为用户提供了一个私密且不引人注意的方式来访问他们的数据。相较于把iPhone">
+<meta name="description" content="本文翻译自Apple官方文档">
 <meta property="og:type" content="article">
 <meta property="og:title" content="【译】Apple Watch开发">
 <meta property="og:url" content="http://yoursite.com/2014/12/30/AppleWatch/index.html">
 <meta property="og:site_name" content="MarkLin's Blog">
-<meta property="og:description" content="本文翻译自Apple官方文档
-   重要声明    这是一个初步的API开发技术文档，苹果公司提供这些信息来帮助你计划采用的技术和使用这里描述的苹果产品的编程接口。这些信息可能随时改变，并根据这个文档来实现软件对应的最新操作系统软件和最新文档进行测试。新版本文档将会提供未来API和技术的测试版本。
-
-Apple Watch为用户提供了一个私密且不引人注意的方式来访问他们的数据。相较于把iPhone">
+<meta property="og:description" content="本文翻译自Apple官方文档">
 <meta property="og:image" content="https://developer.apple.com/library/prerelease/ios/documentation/General/Conceptual/WatchKitProgrammingGuide/Art/watch_apps_2x.png">
-<meta property="og:updated_time" content="2016-03-03T03:39:45.000Z">
+<meta property="og:updated_time" content="2016-03-03T07:15:30.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【译】Apple Watch开发">
-<meta name="twitter:description" content="本文翻译自Apple官方文档
-   重要声明    这是一个初步的API开发技术文档，苹果公司提供这些信息来帮助你计划采用的技术和使用这里描述的苹果产品的编程接口。这些信息可能随时改变，并根据这个文档来实现软件对应的最新操作系统软件和最新文档进行测试。新版本文档将会提供未来API和技术的测试版本。
-
-Apple Watch为用户提供了一个私密且不引人注意的方式来访问他们的数据。相较于把iPhone">
+<meta name="twitter:description" content="本文翻译自Apple官方文档">
 <meta name="twitter:image" content="https://developer.apple.com/library/prerelease/ios/documentation/General/Conceptual/WatchKitProgrammingGuide/Art/watch_apps_2x.png">
 
 
@@ -103,6 +94,16 @@ Apple Watch为用户提供了一个私密且不引人注意的方式来访问他
   
 
 
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?5637976c14f73454a153a5613e3b5a15";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
 
 
 
@@ -143,7 +144,7 @@ Apple Watch为用户提供了一个私密且不引人注意的方式来访问他
   
 
   
-    <ul id="menu" class="menu ">
+    <ul id="menu" class="menu menu-left">
       
         
         <li class="menu-item menu-item-home">
@@ -181,9 +182,39 @@ Apple Watch为用户提供了一个私密且不引人注意的方式来访问他
 
       
       
+        <li class="menu-item menu-item-search">
+        
+          <a href="#" class="st-search-show-outputs">
+        
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
     </ul>
   
 
+  
+    <div class="site-search">
+      
+  <form class="site-search-form">
+  <input type="text" id="st-search-input" class="st-search-input st-default-search-input" />
+</form>
+
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+    (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+    e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install', 'JwC9npkytc2JXzYs6CJe','2.0.0');
+</script>
+
+
+
+    </div>
   
 </nav>
 
@@ -263,7 +294,8 @@ Apple Watch为用户提供了一个私密且不引人注意的方式来访问他
       
 
       
-        <h4 id="本文翻译自Apple官方文档"><a href="#本文翻译自Apple官方文档" class="headerlink" title="本文翻译自Apple官方文档"></a>本文翻译自<a href="https://developer.apple.com/library/prerelease/ios/documentation/General/Conceptual/WatchKitProgrammingGuide/index.html#//apple_ref/doc/uid/TP40014969-CH8-SW1" target="_blank" rel="external">Apple官方文档</a></h4><blockquote>
+        <h4 id="本文翻译自Apple官方文档"><a href="#本文翻译自Apple官方文档" class="headerlink" title="本文翻译自Apple官方文档"></a>本文翻译自<a href="https://developer.apple.com/library/prerelease/ios/documentation/General/Conceptual/WatchKitProgrammingGuide/index.html#//apple_ref/doc/uid/TP40014969-CH8-SW1" target="_blank" rel="external">Apple官方文档</a></h4><a id="more"></a>
+<blockquote>
 <p>   <strong>重要声明</strong><br>    这是一个初步的API开发技术文档，苹果公司提供这些信息来帮助你计划采用的技术和使用这里描述的苹果产品的编程接口。这些信息可能随时改变，并根据这个文档来实现软件对应的最新操作系统软件和最新文档进行测试。新版本文档将会提供未来API和技术的测试版本。</p>
 </blockquote>
 <p>Apple Watch为用户提供了一个私密且不引人注意的方式来访问他们的数据。相较于把iPhone放在在口袋里，用户可以通过看一眼Apple Watch快速地获取重要信息。为Apple Watch开发的App支持以这些简单的交互以最直接的方式只提供最相关的信息。</p>
@@ -296,13 +328,19 @@ Apple Watch为用户提供了一个私密且不引人注意的方式来访问他
 
     <footer class="post-footer">
       
+        <div class="post-tags">
+          
+            <a href="/tags/iOS/" rel="tag">#iOS</a>
+          
+        </div>
+      
 
       
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2014/12/08/OCRuntime/" rel="next" title="【译】Objective-C Runtime">
-                <i class="fa fa-chevron-left"></i> 【译】Objective-C Runtime
+              <a href="/2014/12/09/CoreBluetooth/" rel="next" title="【译】iOS蓝牙编程指南 -- 核心蓝牙概述">
+                <i class="fa fa-chevron-left"></i> 【译】iOS蓝牙编程指南 -- 核心蓝牙概述
               </a>
             
           </div>
@@ -383,7 +421,7 @@ Apple Watch为用户提供了一个私密且不引人注意的方式来访问他
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">6</span>
+              <span class="site-state-item-count">9</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -393,7 +431,7 @@ Apple Watch为用户提供了一个私密且不引人注意的方式来访问他
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-count">6</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

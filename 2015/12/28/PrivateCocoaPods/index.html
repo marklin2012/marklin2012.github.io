@@ -41,7 +41,7 @@
 <link href="/css/main.css?v=0.5.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="xcode," />
+  <meta name="keywords" content="iOS,CocoaPods," />
 
 
 
@@ -57,22 +57,25 @@
 
 
 
-<meta name="description" content="你在全明星好莱坞中看到过程序员入侵主机，手指在键盘上飞速的敲击，而终端的屏幕在飞舞。如果你曾经想成为这样的程序员，那你来对地方了！
-这个教程将告诉你在Xcode中如何更像一名程序员。在你学习了本教程之后，你会觉得自己变得更酷（提高了Xcode的编程效率），甚至可以获得拯救世界免于毁灭的威力。你可以按你喜欢的任何方式称呼它–魔法，疯狂技能，纯粹走运或者黑客入侵，这都没有任何问题。">
+<meta name="description" content="本文翻译自 CocoaPods 官方文档 Private Pods
+
+CocoaPods 不仅仅是一个在iOS工程中添加开源代码很强大的工具，也可以为整个项目分享组件。我们可以通过使用私有的 Spec Repo 来实现这一点。
+为工程配置一个私有的 pods 需要一些步骤：首先创建一个私有的仓库，让 CocoaPods 知道去哪里找到它，然后添加一个 podspecs 到仓库中。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="【译】提高你的Xcode开发效率">
-<meta property="og:url" content="http://yoursite.com/2014/12/08/Xcodeskill/index.html">
+<meta property="og:title" content="【译】本地私有 CocoaPods">
+<meta property="og:url" content="http://yoursite.com/2015/12/28/PrivateCocoaPods/index.html">
 <meta property="og:site_name" content="MarkLin's Blog">
-<meta property="og:description" content="你在全明星好莱坞中看到过程序员入侵主机，手指在键盘上飞速的敲击，而终端的屏幕在飞舞。如果你曾经想成为这样的程序员，那你来对地方了！
-这个教程将告诉你在Xcode中如何更像一名程序员。在你学习了本教程之后，你会觉得自己变得更酷（提高了Xcode的编程效率），甚至可以获得拯救世界免于毁灭的威力。你可以按你喜欢的任何方式称呼它–魔法，疯狂技能，纯粹走运或者黑客入侵，这都没有任何问题。">
-<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/126473-756b440c6c9c6361.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/126473-77a347da733cc901.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:updated_time" content="2016-03-03T07:13:30.000Z">
+<meta property="og:description" content="本文翻译自 CocoaPods 官方文档 Private Pods
+
+CocoaPods 不仅仅是一个在iOS工程中添加开源代码很强大的工具，也可以为整个项目分享组件。我们可以通过使用私有的 Spec Repo 来实现这一点。
+为工程配置一个私有的 pods 需要一些步骤：首先创建一个私有的仓库，让 CocoaPods 知道去哪里找到它，然后添加一个 podspecs 到仓库中。">
+<meta property="og:updated_time" content="2016-03-03T07:53:47.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="【译】提高你的Xcode开发效率">
-<meta name="twitter:description" content="你在全明星好莱坞中看到过程序员入侵主机，手指在键盘上飞速的敲击，而终端的屏幕在飞舞。如果你曾经想成为这样的程序员，那你来对地方了！
-这个教程将告诉你在Xcode中如何更像一名程序员。在你学习了本教程之后，你会觉得自己变得更酷（提高了Xcode的编程效率），甚至可以获得拯救世界免于毁灭的威力。你可以按你喜欢的任何方式称呼它–魔法，疯狂技能，纯粹走运或者黑客入侵，这都没有任何问题。">
-<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/126473-756b440c6c9c6361.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta name="twitter:title" content="【译】本地私有 CocoaPods">
+<meta name="twitter:description" content="本文翻译自 CocoaPods 官方文档 Private Pods
+
+CocoaPods 不仅仅是一个在iOS工程中添加开源代码很强大的工具，也可以为整个项目分享组件。我们可以通过使用私有的 Spec Repo 来实现这一点。
+为工程配置一个私有的 pods 需要一些步骤：首先创建一个私有的仓库，让 CocoaPods 知道去哪里找到它，然后添加一个 podspecs 到仓库中。">
 
 
 
@@ -90,7 +93,7 @@
   };
 </script>
 
-  <title> 【译】提高你的Xcode开发效率 | MarkLin's Blog </title>
+  <title> 【译】本地私有 CocoaPods | MarkLin's Blog </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -252,7 +255,7 @@
             
             
               
-                【译】提高你的Xcode开发效率
+                【译】本地私有 CocoaPods
               
             
           </h1>
@@ -264,8 +267,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2014-12-08T11:28:22+08:00" content="2014-12-08">
-              2014-12-08
+            <time itemprop="dateCreated" datetime="2015-12-28T15:52:14+08:00" content="2015-12-28">
+              2015-12-28
             </time>
           </span>
 
@@ -275,8 +278,8 @@
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2014/12/08/Xcodeskill/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2014/12/08/Xcodeskill/" itemprop="commentsCount"></span>
+                <a href="/2015/12/28/PrivateCocoaPods/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/12/28/PrivateCocoaPods/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -298,82 +301,30 @@
       
 
       
-        <p>你在全明星好莱坞中看到过程序员入侵主机，手指在键盘上飞速的敲击，而终端的屏幕在飞舞。如果你曾经想成为这样的程序员，那你来对地方了！</p>
-<p>这个教程将告诉你在<code>Xcode</code>中如何更像一名程序员。在你学习了本教程之后，你会觉得自己变得更酷（提高了Xcode的编程效率），甚至可以获得拯救世界免于毁灭的威力。你可以按你喜欢的任何方式称呼它–魔法，疯狂技能，纯粹走运或者黑客入侵，这都没有任何问题。</p>
+        <blockquote>
+<p>本文翻译自 <strong>CocoaPods</strong> 官方文档 <a href="https://guides.cocoapods.org/making/private-cocoapods.html" target="_blank" rel="external">Private Pods</a></p>
+</blockquote>
+<p><strong>CocoaPods</strong> 不仅仅是一个在iOS工程中添加开源代码很强大的工具，也可以为整个项目分享组件。我们可以通过使用私有的 <strong>Spec Repo</strong> 来实现这一点。</p>
+<p>为工程配置一个私有的 <strong>pods</strong> 需要一些步骤：首先创建一个私有的仓库，让 <strong>CocoaPods</strong> 知道去哪里找到它，然后添加一个 <strong>podspecs</strong> 到仓库中。</p>
 <a id="more"></a>
-<h4 id="从这里开始"><a href="#从这里开始" class="headerlink" title="从这里开始"></a>从这里开始</h4><p>由于我们的目标是为了变得更酷，以下教程将让指引我们朝着酷点需要做到哪些：</p>
-<ul>
-<li><p>快速执行任务</p>
-</li>
-<li><p>更加精准和准确</p>
-</li>
-<li><p>拥有整洁美观的代码</p>
-</li>
-</ul>
-<p>为了获得额外的忍者点数，你可以试着在不用鼠标和触摸板的情况下完成任务。是的，也就是说在不使用鼠标和触摸板的情况下在<code>Xcode</code>中实现<a href="http://www.raywenderlich.com/25736/how-to-make-a-simple-iphone-game-with-cocos2d-2-x-tutorial" target="_blank" rel="external"><code>pewpew</code></a>这个程序。</p>
-<p>你将开始学习到一些<code>Xcode</code>中有用的功能，然后，你将继续在和<a href="http://www.raywenderlich.com/49311/advanced-table-view-animations-tutorial-drop-in-cards" target="_blank" rel="external"><code>这个教程</code></a>相似的<code>CardTilt</code>工程中，通过修复bug做一些练习。最后你将能够如同像素般精确地梳理你的代码。</p>
-<p>请记住本教程并不是教你最终的应用应该怎么写，而是告诉你如何利用<code>Xcode</code>的优势更加高效地写出比原来更优雅地代码。</p>
-<p>本教程假定你对编程有基本的了解，并着重于提高您作为一个程序员的工作效率。每个人得写代码习惯是不同的，因此，本教程并不是强迫你一定要按照这样的风格写代码。</p>
-<p>自始至终，你将替换某些代码。当你坚持下来，你只需要专注于提炼和构筑你现在的开发风格，并试着不要因为一些差异就放弃。</p>
-<p>注意：如果你对自己Xcode的使用还不是很有信心，你可以先阅读这些文章：<a href="http://www.raywenderlich.com/38557/learn-to-code-ios-apps-1-welcome-to-programming" target="_blank" rel="external">Learn to Code iOS Apps 1: Welcome to Programming</a>, <a href="http://www.raywenderlich.com/1797/ios-tutorial-how-to-create-a-simple-iphone-app-part-1" target="_blank" rel="external">iOS Tutorial: How To Create A Simple iPhone App</a></p>
-<p>下载<a href="http://cdn2.raywenderlich.com/wp-content/uploads/2014/05/CardTilt-starter.zip" target="_blank" rel="external">CardTilt-starter</a>并准备开始编程！</p>
-<h4 id="Xcode每日任务"><a href="#Xcode每日任务" class="headerlink" title="Xcode每日任务"></a>Xcode每日任务</h4><p>在大多数工程中有一些任务是你在Xcode中需要定期执行的。本章节将仔细介绍这些任务，并谈论一些潇洒运用的技巧。随着你的进步，你将掌握这些技巧并发现一些新的方式去使用他们。这些技巧将成为你编写代码的工具一绝，就像忍者星或者烟雾弹一样。</p>
-<p>在Xcode中打开<code>CardTilt</code>，先不要立刻就开始编写代码。首先，先花一些时间来熟悉你看到的下面这张Xcode工作空间的窗口的图片。</p>
-<p>本教程的这些标签将标注工作空间的个别部分。如果你的设置窗口看起来不是这样，不用担心，下面的热键章节将教会你如何轻松的显示并且避免不同。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/126473-756b440c6c9c6361.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="p1"></p>
-<p>下面是一些工作区视图的简要介绍：</p>
-<ul>
-<li><p><code>Toolbar</code>:该区域可以选择你的方案和目的，运行你的程序，以及通用接口布局之间惊醒切换。</p>
-</li>
-<li><p><code>Navigation Area</code>: 这里概括你的项目，符号，错误和导航。</p>
-</li>
-<li><p><code>Editing Area</code>:这里是你所有魔法发生区域。包括顶端视图的附件。</p>
-</li>
-<li><p><code>Utility Area</code>:包括检测和库文件。</p>
-</li>
-<li><p><code>Debugging Area</code>:包括编译结果和变量监测。</p>
-</li>
-</ul>
-<p>在项目工作中，你每天都要和这些视图互动，所有这些视图在Xode中都是必不可少的。通常你也不需要一次把他们都看完，下个章节我们将教你如何快速通过热键来配置你的工作空间。</p>
-<h4 id="热键"><a href="#热键" class="headerlink" title="热键"></a>热键</h4><p>在这个超酷的教程中，你首先将学会如何掌握这些热键，最最有用的热键是非常容易通过一些模式记住的。</p>
-<p>准备好深深地敬畏如下的热键。</p>
-<p>首先需要知道那些常见热键各个部分的关系。</p>
-<p>以下是最常见的一些热键：</p>
-<ul>
-<li><p>Command (⌘):用来导航，主要用来控制导航区域。</p>
-</li>
-<li><p>Alt (⎇): 控制右边的辅助编辑器或者其他实用的编辑器。</p>
-</li>
-<li><p>Control:跳转栏和顶部编辑栏区域的交互。</p>
-</li>
-</ul>
-<p>第二部分需要记住的时数字键以及标签切换关系。数字键和上述修饰键的组合将使你在标签之间快速地切换。</p>
-<p>一般来说，数字对应标签的索引（从1开始），而0一般是隐藏或者显示该区域。这样足够直观不？</p>
-<p>最常见的组合有：</p>
-<ul>
-<li><p>Command 1~8 用来跳转导航栏，Command 0 用来关闭导航区域。</p>
-</li>
-<li><p>Command Alt 1~6 用来跳转栏工具栏，Command Alt 0 用来关闭工具栏。</p>
-</li>
-<li><p>Control Command Alt 1~4 用来跳转库文件。</p>
-</li>
-<li><p>Control 1~6 用来展开跳转栏标签。</p>
-</li>
-</ul>
-<p><img src="http://upload-images.jianshu.io/upload_images/126473-77a347da733cc901.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="p2"></p>
-<p>最后一个，也是最简单的模式是回车键。当和Command键一起使用时，能让你在编辑栏之间切换。</p>
-<ul>
-<li><p>Command + Enter: 显示标准当窗口编辑视图。</p>
-</li>
-<li><p>Command Alt Enter: 你应该能猜到，事实上，它用来打开助理编辑器。</p>
-</li>
-<li><p>Command Alt Shift Enter: 打开版本控制编辑器</p>
-</li>
-</ul>
-<p>最后，但并不是最不重要，打开或者关闭调试区域用Command + Shift + Y。要记住这样只需要问，”Y is my code not working?”</p>
-<p>如果你忘记了，你可以在Xcode中的Navigate菜单中找到这些热键。</p>
-<p>看完这个章节，你就可以随时用你的键盘在Xcode中飞舞了。</p>
-<p>####（未完待续）。。。</p>
+<h3 id="1-创建一个私有的-Spec-Repo"><a href="#1-创建一个私有的-Spec-Repo" class="headerlink" title="1.创建一个私有的 Spec Repo"></a>1.创建一个私有的 <strong>Spec Repo</strong></h3><p>想使用你自己的私有 <strong>pods</strong> 我们建议你创建一个自己的 <strong>Spec repo</strong> 。这里需要你为所有需要使用这个 <strong>repo</strong> 的人设置使用权限。</p>
+<p>这里，你没有必要 fork <strong>CocoaPods/Specs</strong> 的 master 分支。你只需要保证团队中得每个人有访问仓库的权限就行，并且你也没有必要使用公开的仓库。</p>
+<h3 id="2-添加私有的-Repo-到你的-CocoaPods-安装"><a href="#2-添加私有的-Repo-到你的-CocoaPods-安装" class="headerlink" title="2.添加私有的 Repo 到你的 CocoaPods 安装"></a>2.添加私有的 <strong>Repo</strong> 到你的 <strong>CocoaPods</strong> 安装</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pod repo add REPO_NAME SOURCE_URL</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>注意：如果你打算创建一个本地 <strong>pods</strong>， 你应该拥有 push 到 <strong>SOURCE_URL</strong> 的权限。</p>
+<p>然后检查你刚才的安装是否已经成功并且合法：</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd ~/.cocoapods/repos/REPO_NAME</span><br><span class="line">pod repo lint .</span><br></pre></td></tr></table></figure>
+<h3 id="3-添加你的-Podspec-到你的-repo"><a href="#3-添加你的-Podspec-到你的-repo" class="headerlink" title="3.添加你的 Podspec 到你的 repo"></a>3.添加你的 <strong>Podspec</strong> 到你的 <strong>repo</strong></h3><p>先保证你已经对你的源程序标记了正确地版本，接下来运行：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pod repo push REPO_NAME SPEC_NAME.podspec</span><br></pre></td></tr></table></figure>
+<p>这里会执行 <code>pod spec lint</code>, 所以要注意一些你私有的 <strong>repo</strong> 中设置 <strong>spec</strong> 的细节。</p>
+<p>成功地话，你 <strong>repo</strong> 中的结构应该如下所示：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">.</span><br><span class="line">├── Specs</span><br><span class="line">    └── [SPEC_NAME]</span><br><span class="line">        └── [VERSION]</span><br><span class="line">            └── [SPEC_NAME].podspec</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>这就是私有的 <strong>Spec Repo</strong></p>
+</blockquote>
+<p>你的私有 <strong>Pod</strong> 已经在你的 <strong>Podfile</strong> 中准备好可以使用了，你可以在你的 <strong>Pofile</strong> 中添加 <code>source directive</code> 来使用你私有的 <strong>repo</strong>。如下所示</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">source &apos;URL_TO_REPOSITORY&apos;</span><br></pre></td></tr></table></figure>
 
       
     </div>
@@ -388,7 +339,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/xcode/" rel="tag">#xcode</a>
+            <a href="/tags/iOS/" rel="tag">#iOS</a>
+          
+            <a href="/tags/CocoaPods/" rel="tag">#CocoaPods</a>
           
         </div>
       
@@ -397,12 +350,16 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
+              <a href="/2015/01/20/CoreData/" rel="next" title="我的第一个Core Data APP -- Swift">
+                <i class="fa fa-chevron-left"></i> 我的第一个Core Data APP -- Swift
+              </a>
+            
           </div>
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2014/12/08/GCDP1/" rel="prev" title="【译】深入理解GCD:Part1">
-                【译】深入理解GCD:Part1 <i class="fa fa-chevron-right"></i>
+              <a href="/2015/12/28/ModelCocoaPods/" rel="prev" title="【译】使用 CocoaPods 模块化iOS应用">
+                【译】使用 CocoaPods 模块化iOS应用 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -429,8 +386,8 @@
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2014/12/08/Xcodeskill/"
-           data-title="【译】提高你的Xcode开发效率" data-url="http://yoursite.com/2014/12/08/Xcodeskill/">
+      <div class="ds-thread" data-thread-key="2015/12/28/PrivateCocoaPods/"
+           data-title="【译】本地私有 CocoaPods" data-url="http://yoursite.com/2015/12/28/PrivateCocoaPods/">
       </div>
     
   </div>
@@ -528,7 +485,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#从这里开始"><span class="nav-number">1.</span> <span class="nav-text">从这里开始</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Xcode每日任务"><span class="nav-number">2.</span> <span class="nav-text">Xcode每日任务</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#热键"><span class="nav-number">3.</span> <span class="nav-text">热键</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-创建一个私有的-Spec-Repo"><span class="nav-number">1.</span> <span class="nav-text">1.创建一个私有的 Spec Repo</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-添加私有的-Repo-到你的-CocoaPods-安装"><span class="nav-number">2.</span> <span class="nav-text">2.添加私有的 Repo 到你的 CocoaPods 安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-添加你的-Podspec-到你的-repo"><span class="nav-number">3.</span> <span class="nav-text">3.添加你的 Podspec 到你的 repo</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator">

@@ -41,7 +41,7 @@
 <link href="/css/main.css?v=0.5.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="xcode," />
+  <meta name="keywords" content="iOS,CocoaPods," />
 
 
 
@@ -57,22 +57,24 @@
 
 
 
-<meta name="description" content="你在全明星好莱坞中看到过程序员入侵主机，手指在键盘上飞速的敲击，而终端的屏幕在飞舞。如果你曾经想成为这样的程序员，那你来对地方了！
-这个教程将告诉你在Xcode中如何更像一名程序员。在你学习了本教程之后，你会觉得自己变得更酷（提高了Xcode的编程效率），甚至可以获得拯救世界免于毁灭的威力。你可以按你喜欢的任何方式称呼它–魔法，疯狂技能，纯粹走运或者黑客入侵，这都没有任何问题。">
+<meta name="description" content="原文翻译自:Using CocoaPods to Modularize a Big iOS App
+
+为你的移动应用选择正确的架构是一件相当大的事情，这会对你的工作流程造成影响,陷入面对的问题，可能是一笔巨大财富也可能是一个巨大负担。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="【译】提高你的Xcode开发效率">
-<meta property="og:url" content="http://yoursite.com/2014/12/08/Xcodeskill/index.html">
+<meta property="og:title" content="【译】使用 CocoaPods 模块化iOS应用">
+<meta property="og:url" content="http://yoursite.com/2015/12/28/ModelCocoaPods/index.html">
 <meta property="og:site_name" content="MarkLin's Blog">
-<meta property="og:description" content="你在全明星好莱坞中看到过程序员入侵主机，手指在键盘上飞速的敲击，而终端的屏幕在飞舞。如果你曾经想成为这样的程序员，那你来对地方了！
-这个教程将告诉你在Xcode中如何更像一名程序员。在你学习了本教程之后，你会觉得自己变得更酷（提高了Xcode的编程效率），甚至可以获得拯救世界免于毁灭的威力。你可以按你喜欢的任何方式称呼它–魔法，疯狂技能，纯粹走运或者黑客入侵，这都没有任何问题。">
-<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/126473-756b440c6c9c6361.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/126473-77a347da733cc901.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:updated_time" content="2016-03-03T07:13:30.000Z">
+<meta property="og:description" content="原文翻译自:Using CocoaPods to Modularize a Big iOS App
+
+为你的移动应用选择正确的架构是一件相当大的事情，这会对你的工作流程造成影响,陷入面对的问题，可能是一笔巨大财富也可能是一个巨大负担。">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/126473-22a064b6d221be03.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2016-03-03T07:56:32.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="【译】提高你的Xcode开发效率">
-<meta name="twitter:description" content="你在全明星好莱坞中看到过程序员入侵主机，手指在键盘上飞速的敲击，而终端的屏幕在飞舞。如果你曾经想成为这样的程序员，那你来对地方了！
-这个教程将告诉你在Xcode中如何更像一名程序员。在你学习了本教程之后，你会觉得自己变得更酷（提高了Xcode的编程效率），甚至可以获得拯救世界免于毁灭的威力。你可以按你喜欢的任何方式称呼它–魔法，疯狂技能，纯粹走运或者黑客入侵，这都没有任何问题。">
-<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/126473-756b440c6c9c6361.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta name="twitter:title" content="【译】使用 CocoaPods 模块化iOS应用">
+<meta name="twitter:description" content="原文翻译自:Using CocoaPods to Modularize a Big iOS App
+
+为你的移动应用选择正确的架构是一件相当大的事情，这会对你的工作流程造成影响,陷入面对的问题，可能是一笔巨大财富也可能是一个巨大负担。">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/126473-22a064b6d221be03.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 
 
 
@@ -90,7 +92,7 @@
   };
 </script>
 
-  <title> 【译】提高你的Xcode开发效率 | MarkLin's Blog </title>
+  <title> 【译】使用 CocoaPods 模块化iOS应用 | MarkLin's Blog </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -252,7 +254,7 @@
             
             
               
-                【译】提高你的Xcode开发效率
+                【译】使用 CocoaPods 模块化iOS应用
               
             
           </h1>
@@ -264,8 +266,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2014-12-08T11:28:22+08:00" content="2014-12-08">
-              2014-12-08
+            <time itemprop="dateCreated" datetime="2015-12-28T15:54:32+08:00" content="2015-12-28">
+              2015-12-28
             </time>
           </span>
 
@@ -275,8 +277,8 @@
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2014/12/08/Xcodeskill/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2014/12/08/Xcodeskill/" itemprop="commentsCount"></span>
+                <a href="/2015/12/28/ModelCocoaPods/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/12/28/ModelCocoaPods/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -298,82 +300,43 @@
       
 
       
-        <p>你在全明星好莱坞中看到过程序员入侵主机，手指在键盘上飞速的敲击，而终端的屏幕在飞舞。如果你曾经想成为这样的程序员，那你来对地方了！</p>
-<p>这个教程将告诉你在<code>Xcode</code>中如何更像一名程序员。在你学习了本教程之后，你会觉得自己变得更酷（提高了Xcode的编程效率），甚至可以获得拯救世界免于毁灭的威力。你可以按你喜欢的任何方式称呼它–魔法，疯狂技能，纯粹走运或者黑客入侵，这都没有任何问题。</p>
+        <blockquote>
+<p>原文翻译自:<a href="http://product.hubspot.com/blog/architecting-a-large-ios-app-with-cocoapods" target="_blank" rel="external">Using CocoaPods to Modularize a Big iOS App</a></p>
+</blockquote>
+<p>为你的移动应用选择正确的架构是一件相当大的事情，这会对你的工作流程造成影响,陷入面对的问题，可能是一笔巨大财富也可能是一个巨大负担。</p>
 <a id="more"></a>
-<h4 id="从这里开始"><a href="#从这里开始" class="headerlink" title="从这里开始"></a>从这里开始</h4><p>由于我们的目标是为了变得更酷，以下教程将让指引我们朝着酷点需要做到哪些：</p>
+<p><strong>HubSpot</strong>的是一个全功能的app。他是一个分析的app，也是一个设计媒体的app，还是一个邮件app，并且是一个联系人管理的app（可能还有更多地惊喜），这些功能集合在一个app中。去年夏天，当我们开始构建这个相当复杂的app时，我们知道必须有一个可以容易扩展它的架构。</p>
+<p>实际上，我们把每个子app当做一个完全完整地独立的应用程序，然后使用<strong>CocoaPods</strong>将它们集成到主应用程序中。</p>
+<p>截图中，你可以看到各个子程序的源程序，仪表盘，社交媒体，实际上既是一个独立的iPhone应用程序，也可以纳入主要的应用程序的菜单中选择一个应用程序。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/126473-22a064b6d221be03.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="p1"></p>
+<p>这会给我们代理一些巨大的好处：</p>
 <ul>
-<li><p>快速执行任务</p>
-</li>
-<li><p>更加精准和准确</p>
-</li>
-<li><p>拥有整洁美观的代码</p>
-</li>
+<li>最关键的是，我们很容易就能保证每个子应用程序的主分支是准备好发布，并可以推送一个子应用程序的特定版本。</li>
+<li>我们在编译上花费多一些时间，而减少了较多合并的时间。每个独立app的沙盒可以很容易的在子应用程序内循环，花最少的时间与其他应用程序进行集成。如果你在一个以上的iOS团队工作过，你毫无疑问已经经历过<strong>.xcodeproj</strong>合并时的痛苦。虽然他们可以解决，但这个痛苦地步骤我们只想对他敬而远之。</li>
+<li>我们能够在必要时单独部署每个应用程序，这样我们在一个独立的app可用性测试上将会是惊人的。我们可以更早地将我们的app在合成之前提交给测试者，例如导航功能实现之前，这样我们可以得到更高质量，和更有针对性的反馈。</li>
+<li>由于子应用程序之间的用户流只是基于URL路径（后面会详细解释）完成的，这意味着路径可以内置或者文档化，而不是从一堆<strong>UIViewController</strong>以搜索正确的方式来实例化一个特定的视图，当然必须要事先定义好路径。建立类似演练教程或者新的推送通知时，这是非常有用的。</li>
 </ul>
-<p>为了获得额外的忍者点数，你可以试着在不用鼠标和触摸板的情况下完成任务。是的，也就是说在不使用鼠标和触摸板的情况下在<code>Xcode</code>中实现<a href="http://www.raywenderlich.com/25736/how-to-make-a-simple-iphone-game-with-cocos2d-2-x-tutorial" target="_blank" rel="external"><code>pewpew</code></a>这个程序。</p>
-<p>你将开始学习到一些<code>Xcode</code>中有用的功能，然后，你将继续在和<a href="http://www.raywenderlich.com/49311/advanced-table-view-animations-tutorial-drop-in-cards" target="_blank" rel="external"><code>这个教程</code></a>相似的<code>CardTilt</code>工程中，通过修复bug做一些练习。最后你将能够如同像素般精确地梳理你的代码。</p>
-<p>请记住本教程并不是教你最终的应用应该怎么写，而是告诉你如何利用<code>Xcode</code>的优势更加高效地写出比原来更优雅地代码。</p>
-<p>本教程假定你对编程有基本的了解，并着重于提高您作为一个程序员的工作效率。每个人得写代码习惯是不同的，因此，本教程并不是强迫你一定要按照这样的风格写代码。</p>
-<p>自始至终，你将替换某些代码。当你坚持下来，你只需要专注于提炼和构筑你现在的开发风格，并试着不要因为一些差异就放弃。</p>
-<p>注意：如果你对自己Xcode的使用还不是很有信心，你可以先阅读这些文章：<a href="http://www.raywenderlich.com/38557/learn-to-code-ios-apps-1-welcome-to-programming" target="_blank" rel="external">Learn to Code iOS Apps 1: Welcome to Programming</a>, <a href="http://www.raywenderlich.com/1797/ios-tutorial-how-to-create-a-simple-iphone-app-part-1" target="_blank" rel="external">iOS Tutorial: How To Create A Simple iPhone App</a></p>
-<p>下载<a href="http://cdn2.raywenderlich.com/wp-content/uploads/2014/05/CardTilt-starter.zip" target="_blank" rel="external">CardTilt-starter</a>并准备开始编程！</p>
-<h4 id="Xcode每日任务"><a href="#Xcode每日任务" class="headerlink" title="Xcode每日任务"></a>Xcode每日任务</h4><p>在大多数工程中有一些任务是你在Xcode中需要定期执行的。本章节将仔细介绍这些任务，并谈论一些潇洒运用的技巧。随着你的进步，你将掌握这些技巧并发现一些新的方式去使用他们。这些技巧将成为你编写代码的工具一绝，就像忍者星或者烟雾弹一样。</p>
-<p>在Xcode中打开<code>CardTilt</code>，先不要立刻就开始编写代码。首先，先花一些时间来熟悉你看到的下面这张Xcode工作空间的窗口的图片。</p>
-<p>本教程的这些标签将标注工作空间的个别部分。如果你的设置窗口看起来不是这样，不用担心，下面的热键章节将教会你如何轻松的显示并且避免不同。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/126473-756b440c6c9c6361.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="p1"></p>
-<p>下面是一些工作区视图的简要介绍：</p>
-<ul>
-<li><p><code>Toolbar</code>:该区域可以选择你的方案和目的，运行你的程序，以及通用接口布局之间惊醒切换。</p>
-</li>
-<li><p><code>Navigation Area</code>: 这里概括你的项目，符号，错误和导航。</p>
-</li>
-<li><p><code>Editing Area</code>:这里是你所有魔法发生区域。包括顶端视图的附件。</p>
-</li>
-<li><p><code>Utility Area</code>:包括检测和库文件。</p>
-</li>
-<li><p><code>Debugging Area</code>:包括编译结果和变量监测。</p>
-</li>
-</ul>
-<p>在项目工作中，你每天都要和这些视图互动，所有这些视图在Xode中都是必不可少的。通常你也不需要一次把他们都看完，下个章节我们将教你如何快速通过热键来配置你的工作空间。</p>
-<h4 id="热键"><a href="#热键" class="headerlink" title="热键"></a>热键</h4><p>在这个超酷的教程中，你首先将学会如何掌握这些热键，最最有用的热键是非常容易通过一些模式记住的。</p>
-<p>准备好深深地敬畏如下的热键。</p>
-<p>首先需要知道那些常见热键各个部分的关系。</p>
-<p>以下是最常见的一些热键：</p>
-<ul>
-<li><p>Command (⌘):用来导航，主要用来控制导航区域。</p>
-</li>
-<li><p>Alt (⎇): 控制右边的辅助编辑器或者其他实用的编辑器。</p>
-</li>
-<li><p>Control:跳转栏和顶部编辑栏区域的交互。</p>
-</li>
-</ul>
-<p>第二部分需要记住的时数字键以及标签切换关系。数字键和上述修饰键的组合将使你在标签之间快速地切换。</p>
-<p>一般来说，数字对应标签的索引（从1开始），而0一般是隐藏或者显示该区域。这样足够直观不？</p>
-<p>最常见的组合有：</p>
-<ul>
-<li><p>Command 1~8 用来跳转导航栏，Command 0 用来关闭导航区域。</p>
-</li>
-<li><p>Command Alt 1~6 用来跳转栏工具栏，Command Alt 0 用来关闭工具栏。</p>
-</li>
-<li><p>Control Command Alt 1~4 用来跳转库文件。</p>
-</li>
-<li><p>Control 1~6 用来展开跳转栏标签。</p>
-</li>
-</ul>
-<p><img src="http://upload-images.jianshu.io/upload_images/126473-77a347da733cc901.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="p2"></p>
-<p>最后一个，也是最简单的模式是回车键。当和Command键一起使用时，能让你在编辑栏之间切换。</p>
-<ul>
-<li><p>Command + Enter: 显示标准当窗口编辑视图。</p>
-</li>
-<li><p>Command Alt Enter: 你应该能猜到，事实上，它用来打开助理编辑器。</p>
-</li>
-<li><p>Command Alt Shift Enter: 打开版本控制编辑器</p>
-</li>
-</ul>
-<p>最后，但并不是最不重要，打开或者关闭调试区域用Command + Shift + Y。要记住这样只需要问，”Y is my code not working?”</p>
-<p>如果你忘记了，你可以在Xcode中的Navigate菜单中找到这些热键。</p>
-<p>看完这个章节，你就可以随时用你的键盘在Xcode中飞舞了。</p>
-<p>####（未完待续）。。。</p>
+<p>这种架构在一个两人以上的团队建立多方面的iOSapp时，能节省出巨大的时间。</p>
+<h3 id="从网页学习"><a href="#从网页学习" class="headerlink" title="从网页学习"></a>从网页学习</h3><p>这种将移动端app分割成独立app的灵感来自于我们在<strong>HubSpot</strong>网页端架构的成功。</p>
+<p><strong>HubSpot</strong>网页端架构是高速发展和可扩展的。正如我同事所写，我们使用各种工具盒技术，让我们在一天内共同部署300次。这一点至关重要，当<strong>HubSpot</strong>的产品套件有几个不同的松耦合应用组成：分析，社交媒体，电子邮件，博客和报告工具。</p>
+<p>在web上，我们可以编译，测试和发布<strong>HubSpot</strong>app独立的一小部分——包括后台API和用<strong>Java</strong>编写的任务，前端<strong>CoffeeScript</strong>工程，<strong>Python</strong>工程。为什么移动端不也这么做？</p>
+<h3 id="CocoaPods：用起来！"><a href="#CocoaPods：用起来！" class="headerlink" title="CocoaPods：用起来！"></a><strong>CocoaPods</strong>：用起来！</h3><p><strong>CocoaPods</strong>是iOS中出色的依赖管理解决方案，是一个把所有东西聚合的关键工具。</p>
+<p>一个多应用程序架构可能对你的使用的案例过度使用，但<strong>CocoaPods</strong>绝对不会——尽管你只是生成一小撮使用案例，视图组件或者网络的第三方库——花费几分钟来设置它是完全值得你去投入的。<strong>Ruby</strong>，<strong>gem</strong>类似的语法在app中整合开源组件中变得几乎无缝。</p>
+<p>核心库和共享资源，如登录，样式类，API/认证持久性和访问可以构建成带<strong>Kiwi</strong>测试和<strong>podspec</strong>文件的独立工程。</p>
+<p>我们将他们发布在<a href="http://guides.cocoapods.org/making/private-cocoapods.html" target="_blank" rel="external">私有<strong>CocoaPods</strong>仓库</a>中，然后在实际完全编译的应用中包含他们。然而，我们进一步把它们建立成各个子app——所有的社交媒体，电子邮件，资源，使用样例——分成一个单独的<strong>podspec</strong>，然后使用<strong>CocoaPods</strong>将它们编译到一个app中。</p>
+<p>这意味着，我们可以在内部发行单一功能的测试版本，并且可以在一个单一的应用程序进行快速的变更而无需担心破坏其他工作在不相关的子app开发者的编译。</p>
+<p>我们最终完app的<strong>Podfile</strong>如下所示：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">platform :ios, &apos;6.0&apos;</span><br><span class="line"></span><br><span class="line"># networking, slider navigation, routing</span><br><span class="line">pod &apos;AFNetworking&apos;, &apos;~&gt; 1.2.1&apos;</span><br><span class="line">pod &apos;ViewDeck&apos;, &apos;~&gt; 2.2.11&apos;</span><br><span class="line">pod &apos;JLRoutes&apos;, &apos;~&gt; 1.2&apos;</span><br><span class="line"></span><br><span class="line"># sub-apps, pulling from the head of each repo for development. alternately, we can pin it to a release version like we do the other pods</span><br><span class="line">pod &apos;HSAPIClient&apos;, :head</span><br><span class="line">pod &apos;HSCommonResources&apos;, :head</span><br><span class="line">pod &apos;HSMarketingGraderApp&apos;, :head</span><br><span class="line">pod &apos;HSContactsApp&apos;, :head</span><br><span class="line">pod &apos;HSDashboardApp&apos;, :head</span><br><span class="line">pod &apos;HSLoginApp&apos;, :head</span><br><span class="line">pod &apos;HSSocialApp&apos;, :head</span><br><span class="line">pod &apos;HSSourcesApp&apos;, :head</span><br><span class="line">pod &apos;HSSettingsApp&apos;, :head</span><br><span class="line">pod &apos;HSSocialReach&apos;, :head</span><br><span class="line">pod &apos;HSEmailApp&apos;, :head</span><br></pre></td></tr></table></figure>
+<h3 id="把它粘在一起"><a href="#把它粘在一起" class="headerlink" title="把它粘在一起"></a>把它粘在一起</h3><p>细心地读者会注意到我们使用了一些在主app中粘合<a href="https://github.com/Inferis/ViewDeck" target="_blank" rel="external"><strong>IIViewDeck</strong></a>和<a href="https://github.com/joeldev/JLRoutes" target="_blank" rel="external"><strong>JLRoutes</strong></a>两个子app具有关键作用的开源工具。</p>
+<p>做到这点我们就可以不需要在基础app的不同菜单项提供信息，并且每个子app的路径都可控。每个子app提供了一个实现了一些<strong>HSBaseApp</strong>方法的协议类。</p>
+<p><strong>HSBaseApp.h</strong>文件如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">@protocol HSBaseApp &lt;NSObject&gt;</span><br><span class="line">+ (UINavigationController *)baseNavigationController;</span><br><span class="line">+ (NSArray *)menuItems;</span><br><span class="line">+ (NSArray *)routesToRegister;</span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+<p>实现的例子<strong>HSSocial.m</strong>如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">+ (UINavigationController *)baseNavigationController &#123;</span><br><span class="line">    return [[HSNavigationController alloc] initWithRootViewController:[[HSSocialViewController alloc] initWithNibName:@&quot;HSSocialViewController&quot; bundle:nil]];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">+ (NSArray *)menuItems &#123;</span><br><span class="line">    HSMenuItem *calendarMenuItem = [[HSMenuItem alloc] initWithTitle:@&quot;Publishing&quot; icon:@&quot;\\&quot; launchHubSpotApp:[HSSocial class]];</span><br><span class="line">    calendarMenuItem.sectionTitle = @&quot;Social&quot;;</span><br><span class="line">    </span><br><span class="line">    return @[calendarMenuItem];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">+ (NSArray *)routesToRegister &#123;</span><br><span class="line">    HSRoute *newItemRoute = [HSRoute routeWithUrl:@&quot;social/new&quot; andAction:^BOOL(id&lt;HSRoutingDelegate&gt; routingDelegate, NSString *url, NSDictionary *parameters) &#123;</span><br><span class="line">    //  handle route, usually by suppying a UIViewController to the routingDelegate</span><br><span class="line">    &#125;];</span><br><span class="line"></span><br><span class="line">    NSArray *routes = @[newItemRoute]; // could be more routes here too</span><br><span class="line"></span><br><span class="line">    return routes;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我们使用路径来处理传入的推送通知，然后我们使用相同的方案将主app和子app进行链接——例如，当我们从数据源或社交媒体返回数据。</p>
+<p><strong>HSRoutingDelegate</strong>有一点点神奇的是它能绕过当前活动的<strong>UINavigationController</strong>，然后我们能够在顶部推出或者创建一个基于上下文的模态视图跳转，除此之外，一个简单地<strong>JLRoutes</strong>基于<strong>block</strong>的语法也可以达到同样地目的。</p>
+<h3 id="我们还能做什么？"><a href="#我们还能做什么？" class="headerlink" title="我们还能做什么？"></a>我们还能做什么？</h3><p>从长远来看，我们希望扩大我们过去简单一些共享库的<strong>Kiwi</strong>测试或在<strong>KIF</strong>测试中编译，这样每个子app的版本传递<strong>Kiwi</strong>和<strong>KIF</strong>测试是建立在一个持续集成的设置中，我们可以选择已知每个很好的版本，发行主程序的每个版本。</p>
+<p>你在多人协作中是如何组织大型的iOSapp的呢？有没有更好的方法？我们很乐意听到您的声音！</p>
 
       
     </div>
@@ -388,7 +351,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/xcode/" rel="tag">#xcode</a>
+            <a href="/tags/iOS/" rel="tag">#iOS</a>
+          
+            <a href="/tags/CocoaPods/" rel="tag">#CocoaPods</a>
           
         </div>
       
@@ -397,12 +362,16 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
+              <a href="/2015/12/28/PrivateCocoaPods/" rel="next" title="【译】本地私有 CocoaPods">
+                <i class="fa fa-chevron-left"></i> 【译】本地私有 CocoaPods
+              </a>
+            
           </div>
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2014/12/08/GCDP1/" rel="prev" title="【译】深入理解GCD:Part1">
-                【译】深入理解GCD:Part1 <i class="fa fa-chevron-right"></i>
+              <a href="/2016/03/02/hello-world/" rel="prev" title="Hello World">
+                Hello World <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -429,8 +398,8 @@
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2014/12/08/Xcodeskill/"
-           data-title="【译】提高你的Xcode开发效率" data-url="http://yoursite.com/2014/12/08/Xcodeskill/">
+      <div class="ds-thread" data-thread-key="2015/12/28/ModelCocoaPods/"
+           data-title="【译】使用 CocoaPods 模块化iOS应用" data-url="http://yoursite.com/2015/12/28/ModelCocoaPods/">
       </div>
     
   </div>
@@ -528,7 +497,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#从这里开始"><span class="nav-number">1.</span> <span class="nav-text">从这里开始</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Xcode每日任务"><span class="nav-number">2.</span> <span class="nav-text">Xcode每日任务</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#热键"><span class="nav-number">3.</span> <span class="nav-text">热键</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#从网页学习"><span class="nav-number">1.</span> <span class="nav-text">从网页学习</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CocoaPods：用起来！"><span class="nav-number">2.</span> <span class="nav-text">CocoaPods：用起来！</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#把它粘在一起"><span class="nav-number">3.</span> <span class="nav-text">把它粘在一起</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#我们还能做什么？"><span class="nav-number">4.</span> <span class="nav-text">我们还能做什么？</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator">
